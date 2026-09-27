@@ -1,0 +1,8 @@
+{
+  "name": "Nav Durga Business ERP",
+  "description": "Industrial ERP for Nav Durga Ispat to manage products, daily steel price updates, WhatsApp communication, enquiries, quotations, sales orders, and customers. Powered by Klyia Technology.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
