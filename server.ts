@@ -25,6 +25,97 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// AI Promotional Graphic Generator Route (Powered by Gemini 3.8 Flash)
+app.post('/api/ai/generate-graphic', async (req, res) => {
+  const { promptText, seed = Date.now(), aspectRatio = '1:1' } = req.body;
+
+  if (!promptText || typeof promptText !== 'string') {
+    return res.status(400).json({ error: 'promptText is required' });
+  }
+
+  const apiKey = process.env.GEMINI_API_KEY;
+
+  if (apiKey) {
+    try {
+      const ai = new GoogleGenAI({
+        apiKey,
+        httpOptions: {
+          headers: {
+            'User-Agent': 'aistudio-build',
+          },
+        },
+      });
+
+      const systemInstruction = `
+You are an expert art director and advertising copywriter for "Nav Durga Ispat Pvt. Ltd." (Urla Mill, Raipur, Chhattisgarh) specializing in high-impact Indian industrial steel promotional graphics for WhatsApp broadcasts.
+Analyze the admin's raw text and output a rich, randomized artistic recipe to generate an Indian steel promotional graphic.
+The design must look visually similar to high-converting Indian steel industry posters: bold headlines, gold badges, large price callouts, professional steel product highlights, and official Nav Durga mill credibility.
+
+Output JSON matching this exact schema:
+{
+  "headline": "Short punchy uppercase headline (max 7 words, e.g. 'FESTIVE RATE DROP ALERT' or 'SPECIAL URLA MILL OFFER')",
+  "subheadline": "Compelling secondary tagline (max 12 words)",
+  "badge": "Eye-catching ribbon tag (e.g. 'HOT DEAL', 'LIMITED TIME', 'DIRECT EX-PLANT', 'TODAY'S SPECIAL')",
+  "price": "Extracted or formatted price string (e.g. '₹48,500/MT' or '₹500 OFF / MT' or null if none)",
+  "priceLabel": "Label above price (e.g. 'SPECIAL EX-PLANT RATE' or 'FESTIVE DISCOUNT')",
+  "products": [
+    { "name": "MS Channel 125x65", "tag": "In Stock" },
+    { "name": "MS Angle 50x50", "tag": "Prime" }
+  ],
+  "features": [
+    "Direct Rolling Mill Supply (Urla Mill)",
+    "Immediate Trailer Loading",
+    "IS 2062 Prime Tested Steel",
+    "Ex-Plant Raipur Delivery"
+  ],
+  "cta": "BOOK ON WHATSAPP: +91 97521 83053",
+  "layoutStyle": "diagonal_power | center_gold_seal | bold_split_poster | industrial_bento | dynamic_speed_angles | executive_steel_sheet | radiant_burst_deal | heavy_structural_grid",
+  "colorPaletteName": "Imperial Navy & Molten Gold | Blast Furnace Molten Ember | High-Tech Industrial Cyan & Cobalt | Indian Emerald & Royal Gold | Midnight Onyx & Polished Steel | Royal Purple & Cyber Yellow",
+  "backgroundDecor": "particles_molten | hex_mesh_steel | radial_sunburst | diagonal_slashes | blueprint_cad | layered_slabs | sparks_and_flares",
+  "decorations": {
+    "hasGoldSeal": true,
+    "hasUrlaBadge": true,
+    "hasPrimeQualityShield": true,
+    "hasRibbon": true,
+    "hasSparks": true,
+    "hasCornerTechBrackets": true
+  }
+}
+`;
+
+      const response = await ai.models.generateContent({
+        model: 'gemini-3.8-flash',
+        contents: [
+          {
+            role: 'user',
+            parts: [{ text: `Create a unique, high-converting steel promotional graphic recipe for this text:\n\n"${promptText}"\n\nRandom seed: ${seed}` }],
+          },
+        ],
+        config: {
+          systemInstruction,
+          responseMimeType: 'application/json',
+          temperature: 0.85, // High temperature for creative randomness
+        },
+      });
+
+      const responseText = response.text;
+      if (responseText) {
+        const parsed = JSON.parse(responseText);
+        return res.json(parsed);
+      }
+    } catch (err: any) {
+      console.warn('Gemini Graphic API warning (fallback to procedural generator):', err?.message || err);
+      // Fallback response with basic extracted text so client procedural engine renders seamlessly
+      return res.json({
+        isProceduralFallback: true,
+        error: err?.message,
+      });
+    }
+  }
+
+  res.json({ isProceduralFallback: true });
+});
+
 // AI Assistant Chat Route (Powered by Gemini 3.8 Flash SDK)
 app.post('/api/assistant/chat', async (req, res) => {
   const { message, conversationHistory = [], context = {} } = req.body;

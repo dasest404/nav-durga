@@ -141,7 +141,7 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
       {/* Customers Table */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs sm:text-sm">
+          <table className="w-full min-w-[700px] text-left text-xs sm:text-sm">
             <thead className="bg-slate-50 text-slate-600 font-bold border-b border-slate-200 select-none">
               <tr>
                 <th className="py-3.5 px-4">Customer & Firm</th>

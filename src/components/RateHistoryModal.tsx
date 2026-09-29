@@ -89,8 +89,8 @@ export const RateHistoryModal: React.FC<RateHistoryModalProps> = ({
         </div>
 
         {/* Content Table */}
-        <div className="overflow-y-auto flex-1 p-4">
-          <table className="w-full text-left border-collapse text-xs">
+        <div className="overflow-auto flex-1 p-3 sm:p-4">
+          <table className="w-full min-w-[780px] text-left border-collapse text-xs">
             <thead>
               <tr className="border-b border-slate-200 bg-slate-50 text-slate-600 font-bold uppercase tracking-wider text-[10px]">
                 <th className="py-2.5 px-3">Date</th>

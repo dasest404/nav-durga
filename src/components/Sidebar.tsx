@@ -143,7 +143,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   let currentCategory = '';
 
   return (
-    <aside className="w-64 bg-white border-r border-slate-200 shrink-0 hidden md:flex flex-col justify-between py-4 px-3 shadow-xs select-none">
+    <aside className="w-56 lg:w-64 bg-white border border-slate-200 rounded-2xl shrink-0 hidden md:flex flex-col justify-between py-4 px-2.5 lg:px-3 shadow-xs select-none self-start sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto">
       <div className="space-y-1">
         {navItems.map((item) => {
           const isCategoryChange = item.category && item.category !== currentCategory;

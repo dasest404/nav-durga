@@ -371,7 +371,7 @@ export const DailyRateUpdateView: React.FC<DailyRateUpdateViewProps> = ({
 
         {/* Product Table: S.N. | PRODUCT | SIZE | GRADE | GAUGE DIFF. | FINAL RATE */}
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-xs sm:text-sm">
+          <table className="w-full min-w-[620px] text-left border-collapse text-xs sm:text-sm">
             <thead>
               <tr className="border-b border-slate-200 bg-slate-50 text-slate-700 font-black uppercase tracking-wider text-[11px]">
                 <th className="py-3 px-3 w-10 text-center">
@@ -578,33 +578,33 @@ export const DailyRateUpdateView: React.FC<DailyRateUpdateViewProps> = ({
             <button
               type="button"
               onClick={() => setActiveCategoryTab('MEDIUM SECTION')}
-              className={`px-3.5 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeCategoryTab === 'MEDIUM SECTION'
                   ? 'bg-blue-600 text-white shadow-sm ring-2 ring-blue-600 ring-offset-1'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
-              <Building2 className="w-3.5 h-3.5" />
-              <span>MEDIUM SECTION — NAVDURGA ISPAT (13)</span>
+              <Building2 className="w-3.5 h-3.5 shrink-0" />
+              <span>MEDIUM SECTION<span className="hidden sm:inline"> — NAVDURGA ISPAT</span> (13)</span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveCategoryTab('LIGHT SECTION')}
-              className={`px-3.5 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeCategoryTab === 'LIGHT SECTION'
                   ? 'bg-amber-600 text-white shadow-sm ring-2 ring-amber-600 ring-offset-1'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
-              <Building2 className="w-3.5 h-3.5" />
-              <span>LIGHT SECTION — UNIT-2 NS ISPAT (9)</span>
+              <Building2 className="w-3.5 h-3.5 shrink-0" />
+              <span>LIGHT SECTION<span className="hidden sm:inline"> — UNIT-2 NS ISPAT</span> (9)</span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveCategoryTab('ALL')}
-              className={`px-3 py-2 rounded-xl text-xs font-black transition-all ${
+              className={`px-3 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
                 activeCategoryTab === 'ALL'
                   ? 'bg-slate-900 text-white shadow-sm'
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -615,8 +615,8 @@ export const DailyRateUpdateView: React.FC<DailyRateUpdateViewProps> = ({
           </div>
 
           {/* Rate Date Picker */}
-          <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
-            <Calendar className="w-4 h-4 text-blue-600" />
+          <div className="flex items-center gap-2 text-xs font-bold text-slate-600 flex-wrap">
+            <Calendar className="w-4 h-4 text-blue-600 shrink-0" />
             <span>Rate Card Date:</span>
             <input
               type="date"
@@ -634,14 +634,14 @@ export const DailyRateUpdateView: React.FC<DailyRateUpdateViewProps> = ({
             <button
               type="button"
               onClick={() => handleSectionPreset('MEDIUM SECTION')}
-              className="px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-50 border border-blue-200 text-blue-800 hover:bg-blue-100"
+              className="px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-50 border border-blue-200 text-blue-800 hover:bg-blue-100 cursor-pointer"
             >
               Auto-Select MEDIUM SECTION (13)
             </button>
             <button
               type="button"
               onClick={() => handleSectionPreset('LIGHT SECTION')}
-              className="px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-50 border border-amber-200 text-amber-800 hover:bg-amber-100"
+              className="px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-50 border border-amber-200 text-amber-800 hover:bg-amber-100 cursor-pointer"
             >
               Auto-Select LIGHT SECTION (9)
             </button>
@@ -649,7 +649,7 @@ export const DailyRateUpdateView: React.FC<DailyRateUpdateViewProps> = ({
               <button
                 type="button"
                 onClick={() => setSelectedProductIds(new Set())}
-                className="text-xs font-bold text-slate-500 hover:text-slate-700 underline ml-1"
+                className="text-xs font-bold text-slate-500 hover:text-slate-700 underline ml-1 cursor-pointer"
               >
                 Clear Selection ({selectedProductIds.size})
               </button>
@@ -657,7 +657,7 @@ export const DailyRateUpdateView: React.FC<DailyRateUpdateViewProps> = ({
           </div>
 
           {/* Search Box */}
-          <div className="relative w-full max-w-xs">
+          <div className="relative w-full md:max-w-xs">
             <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"

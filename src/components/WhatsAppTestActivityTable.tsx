@@ -83,7 +83,7 @@ export const WhatsAppTestActivityTable: React.FC<WhatsAppTestActivityTableProps>
             </p>
           </div>
         ) : (
-          <table className="w-full text-left border-collapse">
+          <table className="w-full min-w-[620px] text-left border-collapse">
             <thead>
               <tr className="border-b border-slate-200 bg-slate-50/40 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                 <th className="py-3 px-4">Timestamp</th>

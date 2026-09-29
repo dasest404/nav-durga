@@ -500,7 +500,7 @@ export const DailyUpdatesView: React.FC<DailyUpdatesViewProps> = ({
 
         {/* Rate Sheet Table */}
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full min-w-[680px] text-left border-collapse">
             <thead>
               <tr className="bg-slate-100/80 border-b border-slate-200 text-[11px] font-extrabold text-slate-600 uppercase tracking-wider">
                 <th className="py-3 px-3 text-center w-10">
@@ -679,7 +679,7 @@ export const DailyUpdatesView: React.FC<DailyUpdatesViewProps> = ({
 
         {showHistory && (
           <div className="mt-4 overflow-x-auto border border-slate-100 rounded-xl">
-            <table className="w-full text-left text-xs">
+            <table className="w-full min-w-[620px] text-left text-xs">
               <thead>
                 <tr className="bg-slate-50 text-[10px] font-bold uppercase text-slate-500 border-b border-slate-200">
                   <th className="py-2.5 px-3">Date</th>

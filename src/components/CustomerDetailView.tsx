@@ -170,18 +170,18 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
                   {customer.status}
                 </span>
               </div>
-              <p className="text-sm text-slate-600 mt-1 flex items-center gap-2">
+              <p className="text-sm text-slate-600 mt-1 flex flex-wrap items-center gap-2">
                 <span>Contact Person: <strong className="text-slate-800">{customer.name}</strong></span>
-                <span className="text-slate-300">•</span>
+                <span className="text-slate-300 hidden sm:inline">•</span>
                 <span>GSTIN: <strong className="font-mono text-slate-800">{customer.gstin}</strong></span>
               </p>
-              <div className="flex items-center gap-4 text-xs text-slate-500 mt-2">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs text-slate-500 mt-2">
                 <span className="flex items-center gap-1">
-                  <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                  <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                   {customer.city}, {customer.state}
                 </span>
                 <span className="flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5 text-slate-400" />
+                  <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                   Customer since {customer.createdDate}
                 </span>
               </div>

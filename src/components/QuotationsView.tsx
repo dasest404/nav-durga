@@ -254,7 +254,7 @@ export const QuotationsView: React.FC<QuotationsViewProps> = ({
       {/* Quotations Table */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs sm:text-sm">
+          <table className="w-full min-w-[700px] text-left text-xs sm:text-sm">
             <thead className="bg-slate-50 text-slate-600 font-bold border-b border-slate-200 select-none">
               <tr>
                 <th className="py-3.5 px-4">Quotation #</th>
@@ -365,19 +365,19 @@ export const QuotationsView: React.FC<QuotationsViewProps> = ({
       {/* CREATE QUOTATION MODAL */}
       {isCreateOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-3 sm:p-4 overflow-y-auto no-print">
-          <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-4xl overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-150">
-            <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+          <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-4xl overflow-hidden my-auto max-h-[92vh] flex flex-col animate-in fade-in zoom-in-95 duration-150">
+            <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50 shrink-0">
               <h2 className="text-base font-bold text-slate-900">Create Commercial Quotation</h2>
               <button
                 type="button"
                 onClick={() => setIsCreateOpen(false)}
-                className="text-slate-400 hover:text-slate-700"
+                className="text-slate-400 hover:text-slate-700 cursor-pointer p-1"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleSaveQuotation} className="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
+            <form onSubmit={handleSaveQuotation} className="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1">
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">Select Customer</label>
                 <select
@@ -533,36 +533,38 @@ export const QuotationsView: React.FC<QuotationsViewProps> = ({
       {/* PRINT / VIEW QUOTATION MODAL */}
       {previewQuotation && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-3 sm:p-6 overflow-y-auto">
-          <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-3xl overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-150">
+          <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-3xl overflow-hidden my-auto max-h-[92vh] flex flex-col animate-in fade-in zoom-in-95 duration-150">
             {/* Top Toolbar (No-Print) */}
-            <div className="px-6 py-3 border-b border-slate-200 flex items-center justify-between bg-slate-50 no-print">
-              <div className="flex items-center gap-2">
-                <FileText className="w-5 h-5 text-blue-600" />
-                <span className="font-bold text-sm text-slate-900">
+            <div className="px-4 sm:px-6 py-3 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2 bg-slate-50 no-print shrink-0">
+              <div className="flex items-center gap-2 min-w-0">
+                <FileText className="w-5 h-5 text-blue-600 shrink-0" />
+                <span className="font-bold text-xs sm:text-sm text-slate-900 truncate">
                   Quotation Preview — {previewQuotation.quotationNumber}
                 </span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 shrink-0">
                 <button
                   type="button"
                   onClick={() => handleShareOnWhatsApp(previewQuotation)}
-                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700"
+                  className="inline-flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 cursor-pointer shadow-2xs"
                 >
                   <MessageSquare className="w-3.5 h-3.5" />
-                  <span>Send on WhatsApp</span>
+                  <span className="hidden sm:inline">Send on WhatsApp</span>
+                  <span className="sm:hidden">Share</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => window.print()}
-                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-white hover:bg-slate-900"
+                  className="inline-flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-white hover:bg-slate-900 cursor-pointer shadow-2xs"
                 >
                   <Printer className="w-3.5 h-3.5" />
-                  <span>Print Document</span>
+                  <span className="hidden sm:inline">Print Document</span>
+                  <span className="sm:hidden">Print</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setPreviewQuotation(null)}
-                  className="p-1 text-slate-400 hover:text-slate-700 rounded-lg"
+                  className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg cursor-pointer hover:bg-slate-100"
                 >
                   ✕
                 </button>
@@ -570,11 +572,11 @@ export const QuotationsView: React.FC<QuotationsViewProps> = ({
             </div>
 
             {/* Printable Industrial Invoice / Quotation Sheet */}
-            <div className="p-8 space-y-6 text-slate-800 bg-white">
+            <div className="p-4 sm:p-8 space-y-6 text-slate-800 bg-white overflow-y-auto flex-1">
               {/* Header Letterhead */}
-              <div className="flex justify-between items-start border-b-2 border-blue-600 pb-5">
+              <div className="flex flex-col sm:flex-row justify-between items-start gap-4 border-b-2 border-blue-600 pb-5">
                 <div>
-                  <h1 className="text-2xl font-black text-blue-900 tracking-tight">
+                  <h1 className="text-xl sm:text-2xl font-black text-blue-900 tracking-tight">
                     {company.companyName}
                   </h1>
                   <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider mt-0.5">
@@ -587,8 +589,8 @@ export const QuotationsView: React.FC<QuotationsViewProps> = ({
                   </div>
                 </div>
 
-                <div className="text-right">
-                  <div className="inline-block px-3 py-1 bg-blue-50 text-blue-800 font-black text-sm tracking-wider uppercase rounded-lg border border-blue-200">
+                <div className="text-left sm:text-right">
+                  <div className="inline-block px-3 py-1 bg-blue-50 text-blue-800 font-black text-xs sm:text-sm tracking-wider uppercase rounded-lg border border-blue-200">
                     Commercial Quotation
                   </div>
                   <div className="mt-2 text-xs space-y-1">
@@ -615,37 +617,39 @@ export const QuotationsView: React.FC<QuotationsViewProps> = ({
               </div>
 
               {/* Items Table */}
-              <table className="w-full text-left text-xs border border-slate-200">
-                <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
-                  <tr>
-                    <th className="py-2.5 px-3">#</th>
-                    <th className="py-2.5 px-3">Description of Goods</th>
-                    <th className="py-2.5 px-3">Grade</th>
-                    <th className="py-2.5 px-3 text-right">Qty</th>
-                    <th className="py-2.5 px-3 text-right">Unit Rate (₹)</th>
-                    <th className="py-2.5 px-3 text-right">Amount (₹)</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-200">
-                  {previewQuotation.items.map((it, idx) => {
-                    const rate = it.rate || it.unitPrice || 0;
-                    const amt = it.amount || it.total || 0;
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[500px] text-left text-xs border border-slate-200">
+                  <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+                    <tr>
+                      <th className="py-2.5 px-3">#</th>
+                      <th className="py-2.5 px-3">Description of Goods</th>
+                      <th className="py-2.5 px-3">Grade</th>
+                      <th className="py-2.5 px-3 text-right">Qty</th>
+                      <th className="py-2.5 px-3 text-right">Unit Rate (₹)</th>
+                      <th className="py-2.5 px-3 text-right">Amount (₹)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-200">
+                    {previewQuotation.items.map((it, idx) => {
+                      const rate = it.rate || it.unitPrice || 0;
+                      const amt = it.amount || it.total || 0;
 
-                    return (
-                      <tr key={idx}>
-                        <td className="py-2 px-3 text-slate-400">{idx + 1}</td>
-                        <td className="py-2 px-3 font-semibold text-slate-900">{it.productName}</td>
-                        <td className="py-2 px-3 text-blue-900 font-bold">{it.grade}</td>
-                        <td className="py-2 px-3 text-right font-mono font-bold">
-                          {it.quantity} {it.unit}
-                        </td>
-                        <td className="py-2 px-3 text-right font-mono">₹{rate.toLocaleString('en-IN')}</td>
-                        <td className="py-2 px-3 text-right font-mono font-bold">₹{amt.toLocaleString('en-IN')}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                      return (
+                        <tr key={idx}>
+                          <td className="py-2 px-3 text-slate-400">{idx + 1}</td>
+                          <td className="py-2 px-3 font-semibold text-slate-900">{it.productName}</td>
+                          <td className="py-2 px-3 text-blue-900 font-bold">{it.grade}</td>
+                          <td className="py-2 px-3 text-right font-mono font-bold">
+                            {it.quantity} {it.unit}
+                          </td>
+                          <td className="py-2 px-3 text-right font-mono">₹{rate.toLocaleString('en-IN')}</td>
+                          <td className="py-2 px-3 text-right font-mono font-bold">₹{amt.toLocaleString('en-IN')}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
 
               {/* Totals */}
               <div className="flex justify-end">

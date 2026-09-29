@@ -74,24 +74,25 @@ export const MobileNav: React.FC<MobileNavProps> = ({
 
       {/* Mobile Drawer Side Panel */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-xl transform transition-transform duration-200 ease-in-out md:hidden flex flex-col justify-between ${
+        className={`fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] bg-white shadow-xl transform transition-transform duration-200 ease-in-out md:hidden flex flex-col justify-between ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="p-4 border-b border-slate-200 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-sm">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-sm shrink-0">
               ND
             </div>
-            <div>
-              <h2 className="font-bold text-slate-900 text-sm">{company.companyName}</h2>
-              <p className="text-[10px] text-slate-500">Nav Durga Business ERP</p>
+            <div className="min-w-0">
+              <h2 className="font-bold text-slate-900 text-sm truncate">{company.companyName}</h2>
+              <p className="text-[10px] text-slate-500 truncate">Nav Durga Business ERP</p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100"
+            className="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 shrink-0"
+            aria-label="Close menu"
           >
             <X className="w-5 h-5" />
           </button>
@@ -109,18 +110,18 @@ export const MobileNav: React.FC<MobileNavProps> = ({
                   onSelectTab(item.id);
                   onClose();
                 }}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
                   isActive
                     ? 'bg-blue-50 text-blue-700 font-semibold border-l-3 border-blue-600'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                 }`}
               >
-                <div className="flex items-center gap-3">
-                  <Icon className={`w-5 h-5 ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />
-                  <span>{item.label}</span>
+                <div className="flex items-center gap-3 min-w-0">
+                  <Icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />
+                  <span className="truncate">{item.label}</span>
                 </div>
                 {item.badge !== undefined && item.badge > 0 && (
-                  <span className="bg-orange-100 text-orange-700 text-xs px-2 py-0.5 rounded-full font-bold">
+                  <span className="bg-orange-100 text-orange-700 text-xs px-2 py-0.5 rounded-full font-bold shrink-0 ml-2">
                     {item.badge}
                   </span>
                 )}
@@ -136,7 +137,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
       </div>
 
       {/* Mobile Bottom Navigation Bar */}
-      <nav className="fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-slate-200 md:hidden flex items-center justify-around py-1 shadow-lg no-print">
+      <nav className="fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 md:hidden flex items-center justify-around px-1 pt-1.5 pb-[max(0.35rem,env(safe-area-inset-bottom,0px))] shadow-lg no-print">
         {bottomItems.map((item) => {
           const Icon = item.icon;
           const isActive = currentTab === item.id;
@@ -145,12 +146,12 @@ export const MobileNav: React.FC<MobileNavProps> = ({
               key={item.id}
               type="button"
               onClick={() => onSelectTab(item.id)}
-              className={`flex flex-col items-center justify-center py-1 px-2 rounded-lg text-[11px] font-medium transition-colors ${
+              className={`flex-1 min-w-0 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg text-[10px] sm:text-[11px] font-medium transition-colors cursor-pointer ${
                 isActive ? 'text-blue-600 font-bold' : 'text-slate-500 hover:text-slate-800'
               }`}
             >
-              <Icon className={`w-5 h-5 ${isActive ? 'text-blue-600 stroke-[2.2]' : 'text-slate-400'}`} />
-              <span className="mt-0.5">{item.label}</span>
+              <Icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-blue-600 stroke-[2.2]' : 'text-slate-400'}`} />
+              <span className="mt-0.5 truncate w-full text-center leading-tight">{item.label}</span>
             </button>
           );
         })}

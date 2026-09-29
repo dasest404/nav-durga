@@ -68,14 +68,25 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 }) => {
   const latestUpdate = dailyUpdates[0];
 
+  // Dynamic formatted local date
+  const todayFormatted = React.useMemo(() => {
+    return new Date().toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
+  }, []);
+
   // Calculated metrics
-  const todayEnquiries = enquiries.filter((e) => e.date === '2026-09-18');
+  const todayEnquiries = enquiries.filter(
+    (e) => e.date === '2026-09-18' || e.date === new Date().toISOString().split('T')[0]
+  );
   const pendingEnquiries = enquiries.filter(
     (e) => e.status === 'New' || e.status === 'Contacted' || e.status === 'Negotiation'
   );
 
   const todaySalesTotal = orders
-    .filter((o) => o.orderDate === '2026-09-17' || o.orderDate === '2026-09-18')
+    .filter((o) => o.orderDate === '2026-09-17' || o.orderDate === '2026-09-18' || o.orderDate === new Date().toISOString().split('T')[0])
     .reduce((sum, o) => sum + o.total, 0);
 
   const newOrdersCount = orders.filter(
@@ -87,14 +98,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   return (
     <div className="space-y-6">
       {/* Top Banner / Welcome with Today's Steel Market Ticker */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs">
+      <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800">
                 Nav Durga Ispat Operations
               </span>
-              <span className="text-xs text-slate-500 font-medium">18 September 2026</span>
+              <span className="text-xs text-slate-500 font-medium">{todayFormatted}</span>
             </div>
             <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1 tracking-tight">
               Industrial Steel ERP Dashboard
@@ -109,27 +120,27 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <button
               type="button"
               onClick={onOpenCreateUpdate}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 shadow-xs transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 shadow-xs transition-colors cursor-pointer"
             >
-              <TrendingUp className="w-4 h-4" />
+              <TrendingUp className="w-4 h-4 shrink-0" />
               <span>+ Daily Price Update</span>
             </button>
 
             <button
               type="button"
               onClick={() => onNavigate('whatsapp-center')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 shadow-xs transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 shadow-xs transition-colors cursor-pointer"
             >
-              <MessageSquare className="w-4 h-4" />
+              <MessageSquare className="w-4 h-4 shrink-0" />
               <span>WhatsApp Broadcast</span>
             </button>
 
             <button
               type="button"
               onClick={onOpenCreateEnquiry}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-800 hover:bg-slate-200 border border-slate-300 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-800 hover:bg-slate-200 border border-slate-300 transition-colors cursor-pointer"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-4 h-4 shrink-0" />
               <span>+ Log Enquiry</span>
             </button>
           </div>
@@ -138,7 +149,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         {/* Live Steel Rates Ribbon */}
         {latestUpdate && (
           <div className="mt-4 pt-4 border-t border-slate-100">
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
@@ -148,7 +159,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <button
                 type="button"
                 onClick={() => onGeneratePostForUpdate(latestUpdate)}
-                className="text-xs font-semibold text-blue-600 hover:text-blue-800 inline-flex items-center gap-1"
+                className="text-xs font-semibold text-blue-600 hover:text-blue-800 inline-flex items-center gap-1 cursor-pointer"
               >
                 <span>Generate WhatsApp Post</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
@@ -163,22 +174,22 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   className="bg-slate-50 hover:bg-blue-50/50 border border-slate-200/80 rounded-xl p-2.5 cursor-pointer transition-colors"
                 >
                   <div className="text-[11px] font-bold text-slate-600 truncate">{item.grade}</div>
-                  <div className="text-sm font-extrabold text-slate-900 mt-0.5">
+                  <div className="text-xs sm:text-sm font-extrabold text-slate-900 mt-0.5 truncate">
                     ₹{item.price.toLocaleString('en-IN')}{' '}
                     <span className="text-[10px] text-slate-500 font-normal">/{item.unit}</span>
                   </div>
                   <div className="flex items-center gap-1 mt-1">
                     {item.changeNote?.includes('+') ? (
-                      <span className="text-[10px] font-bold text-red-600 flex items-center">
-                        <TrendingUp className="w-3 h-3 mr-0.5" /> {item.changeNote}
+                      <span className="text-[10px] font-bold text-red-600 flex items-center truncate">
+                        <TrendingUp className="w-3 h-3 mr-0.5 shrink-0" /> {item.changeNote}
                       </span>
                     ) : item.changeNote?.includes('-') ? (
-                      <span className="text-[10px] font-bold text-emerald-600 flex items-center">
-                        <TrendingDown className="w-3 h-3 mr-0.5" /> {item.changeNote}
+                      <span className="text-[10px] font-bold text-emerald-600 flex items-center truncate">
+                        <TrendingDown className="w-3 h-3 mr-0.5 shrink-0" /> {item.changeNote}
                       </span>
                     ) : (
                       <span className="text-[10px] font-medium text-slate-500 flex items-center">
-                        <Minus className="w-3 h-3 mr-0.5" /> Stable
+                        <Minus className="w-3 h-3 mr-0.5 shrink-0" /> Stable
                       </span>
                     )}
                   </div>
@@ -190,7 +201,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       </div>
 
       {/* 8 Clickable Metric Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5">
         {/* Card 1: Today's Enquiries */}
         <div
           onClick={() => onNavigate('enquiries')}
@@ -270,7 +281,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <span className="text-2xl font-extrabold text-slate-900">{dailyUpdates.length}</span>
             <span className="text-xs text-slate-600 font-medium">Sheets published</span>
           </div>
-          <p className="text-[11px] text-slate-500 mt-1">Latest: 18 September 2026</p>
+          <p className="text-[11px] text-slate-500 mt-1">
+            Latest: {latestUpdate?.date || todayFormatted}
+          </p>
         </div>
 
         {/* Card 5: Customers */}

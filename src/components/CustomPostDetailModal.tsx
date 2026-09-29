@@ -67,7 +67,7 @@ export const CustomPostDetailModal: React.FC<CustomPostDetailModalProps> = ({
     <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl max-w-3xl w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold">
               <ImageIcon className="w-5 h-5" />
@@ -237,7 +237,7 @@ export const CustomPostDetailModal: React.FC<CustomPostDetailModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-3 border-t border-slate-100 flex items-center justify-between bg-slate-50">
+        <div className="px-6 py-3 border-t border-slate-100 flex items-center justify-between bg-slate-50 shrink-0">
           <div className="text-xs text-slate-500">
             Clicking Open WhatsApp opens chat with pre-filled text. Attach the downloaded image.
           </div>

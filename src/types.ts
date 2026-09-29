@@ -409,7 +409,7 @@ export type ActiveTab =
   | 'reports'
   | 'settings';
 
-export type SmartDropdownCategory = 'MEDIUM' | 'SL';
+export type SmartDropdownCategory = 'MEDIUM' | 'SL' | 'LIGHT' | '5 KG' | '8 KG';
 
 export type SmartDropdownAction =
   | 'ENTER_TODAYS_PRICE'
@@ -624,3 +624,94 @@ export interface AIAssistantAuditEntry {
   affectedCount: number;
   status: 'Success' | 'Cancelled' | 'Failed';
 }
+
+// ============================================================================
+// AI PROMOTIONAL GRAPHIC GENERATOR TYPES (WhatsApp Center)
+// ============================================================================
+
+export type AIGraphicLayoutStyle =
+  | 'diagonal_power'
+  | 'center_gold_seal'
+  | 'bold_split_poster'
+  | 'industrial_bento'
+  | 'dynamic_speed_angles'
+  | 'executive_steel_sheet'
+  | 'radiant_burst_deal'
+  | 'heavy_structural_grid';
+
+export type AIGraphicBackgroundDecor =
+  | 'particles_molten'
+  | 'hex_mesh_steel'
+  | 'radial_sunburst'
+  | 'diagonal_slashes'
+  | 'blueprint_cad'
+  | 'layered_slabs'
+  | 'sparks_and_flares';
+
+export type AISteelProduct3DType =
+  | 'channel'
+  | 'angle'
+  | 'beam'
+  | 'tmt_bundle'
+  | 'billet_stack';
+
+export interface AIGraphicColorPalette {
+  name: string;
+  bgGradient: [string, string, string];
+  accentPrimary: string;
+  accentSecondary: string;
+  accentGlow: string;
+  textLight: string;
+  textDark: string;
+  badgeBg: string;
+  badgeText: string;
+  cardBg: string;
+  cardBorder: string;
+  goldTrim: string;
+}
+
+export interface AISteelProductVisual {
+  type: AISteelProduct3DType;
+  xRatio: number;
+  yRatio: number;
+  scale: number;
+  rotationDeg: number;
+  highlightText?: string;
+}
+
+export interface AIGraphicRecipe {
+  headline: string;
+  subheadline: string;
+  badge: string;
+  price: string | null;
+  priceLabel: string | null;
+  features: string[];
+  cta: string;
+  products: { name: string; tag?: string }[];
+  layoutStyle: AIGraphicLayoutStyle;
+  colorPalette: AIGraphicColorPalette;
+  backgroundDecor: AIGraphicBackgroundDecor;
+  productVisuals: AISteelProductVisual[];
+  decorations: {
+    hasGoldSeal: boolean;
+    hasUrlaBadge: boolean;
+    hasPrimeQualityShield: boolean;
+    hasRibbon: boolean;
+    hasSparks: boolean;
+    hasCornerTechBrackets: boolean;
+  };
+  aspectRatio: '1:1' | '4:5';
+  seed: number;
+  generationId: string;
+  formattedShareText: string;
+}
+
+export interface AIGeneratedGraphicHistoryItem {
+  id: string;
+  promptText: string;
+  recipe: AIGraphicRecipe;
+  dataUrl: string;
+  timestamp: string;
+  aspectRatio: '1:1' | '4:5';
+}
+

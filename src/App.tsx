@@ -595,21 +595,15 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col antialiased selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col antialiased selection:bg-blue-600 selection:text-white overflow-x-hidden">
       {/* Global Header */}
       <Header
         company={appState.company}
-        whatsAppConfig={appState.whatsAppConfig}
         currentTab={activeTab}
         onNavigate={handleTabChange}
         mobileMenuOpen={isMobileMenuOpen}
         setMobileMenuOpen={setIsMobileMenuOpen}
         pendingEnquiriesCount={newEnquiriesCount}
-        onOpenQuickUpdate={() => setIsDailyUpdateFormOpen(true)}
-        onOpenQuickEnquiry={() => {
-          handleAddEnquiry({});
-          setActiveTab('enquiries');
-        }}
       />
 
       {/* Main Layout Container */}
@@ -624,7 +618,7 @@ export default function App() {
         />
 
         {/* Main Content Area */}
-        <main className="flex-1 min-w-0 pb-20 sm:pb-8">
+        <main className="flex-1 min-w-0 pb-24 md:pb-8">
           {/* VIEW: DASHBOARD */}
           {activeTab === 'dashboard' && (
             <DashboardView

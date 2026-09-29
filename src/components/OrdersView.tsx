@@ -229,7 +229,7 @@ export const OrdersView: React.FC<OrdersViewProps> = ({
       {/* Orders Table */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs sm:text-sm">
+          <table className="w-full min-w-[760px] text-left text-xs sm:text-sm">
             <thead className="bg-slate-50 text-slate-600 font-bold border-b border-slate-200 select-none">
               <tr>
                 <th className="py-3.5 px-4">Order # & Date</th>
@@ -369,19 +369,19 @@ export const OrdersView: React.FC<OrdersViewProps> = ({
       {/* CREATE ORDER MODAL */}
       {isAddOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-3 sm:p-4 overflow-y-auto no-print">
-          <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-2xl lg:max-w-4xl overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-150">
-            <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+          <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-2xl lg:max-w-4xl overflow-hidden my-auto max-h-[92vh] flex flex-col animate-in fade-in zoom-in-95 duration-150">
+            <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50 shrink-0">
               <h2 className="text-base font-bold text-slate-900">Create Confirmed Sales Order</h2>
               <button
                 type="button"
                 onClick={() => setIsAddOpen(false)}
-                className="text-slate-400 hover:text-slate-700"
+                className="text-slate-400 hover:text-slate-700 cursor-pointer p-1"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleCreateOrder} className="p-6 space-y-4">
+            <form onSubmit={handleCreateOrder} className="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1">
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">Customer / Consignee</label>
                 <select

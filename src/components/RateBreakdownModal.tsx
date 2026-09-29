@@ -50,10 +50,10 @@ export const RateBreakdownModal: React.FC<RateBreakdownModalProps> = ({
   const gaugeBadge = getGaugeBadgeStyles(product.gaugeType || 'Medium');
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4 no-print">
-      <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-150">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-3 sm:p-4 overflow-y-auto no-print">
+      <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden my-auto max-h-[92vh] flex flex-col animate-in fade-in zoom-in-95 duration-150">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center">
               <Calculator className="w-5 h-5 text-blue-600" />
@@ -92,7 +92,7 @@ export const RateBreakdownModal: React.FC<RateBreakdownModalProps> = ({
         </div>
 
         {/* Calculation Table */}
-        <div className="p-5 space-y-3 text-xs">
+        <div className="p-5 space-y-3 text-xs overflow-y-auto flex-1">
           <div className="divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden bg-slate-50/40">
             <div className="flex justify-between items-center py-2.5 px-3.5 bg-white">
               <span className="text-slate-600 font-medium">Base Rate</span>
@@ -170,7 +170,7 @@ export const RateBreakdownModal: React.FC<RateBreakdownModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-3 border-t border-slate-200 bg-slate-50 flex justify-end">
+        <div className="px-6 py-3 border-t border-slate-200 bg-slate-50 flex justify-end shrink-0">
           <button
             type="button"
             onClick={onClose}

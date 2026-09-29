@@ -133,11 +133,11 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-slate-200 flex items-center gap-2">
+      <div className="border-b border-slate-200 flex items-center gap-2 overflow-x-auto pb-0.5">
         <button
           type="button"
           onClick={() => setActiveSubTab('company')}
-          className={`pb-3 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all ${
+          className={`pb-3 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all whitespace-nowrap shrink-0 cursor-pointer ${
             activeSubTab === 'company'
               ? 'border-blue-600 text-blue-700'
               : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -149,7 +149,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         <button
           type="button"
           onClick={() => setActiveSubTab('terms')}
-          className={`pb-3 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all ${
+          className={`pb-3 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all whitespace-nowrap shrink-0 cursor-pointer ${
             activeSubTab === 'terms'
               ? 'border-blue-600 text-blue-700'
               : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -161,7 +161,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         <button
           type="button"
           onClick={() => setActiveSubTab('api')}
-          className={`pb-3 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center gap-1.5 ${
+          className={`pb-3 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer ${
             activeSubTab === 'api'
               ? 'border-indigo-600 text-indigo-700'
               : 'border-transparent text-slate-500 hover:text-slate-800'

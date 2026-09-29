@@ -220,7 +220,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
       {/* Products Table Card */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs sm:text-sm">
+          <table className="w-full min-w-[760px] text-left text-xs sm:text-sm">
             <thead className="bg-slate-50/80 text-slate-600 font-bold border-b border-slate-200 select-none uppercase tracking-wider text-[11px]">
               <tr>
                 <th className="py-3 px-4">Rate Source</th>

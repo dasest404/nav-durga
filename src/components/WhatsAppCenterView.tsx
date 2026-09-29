@@ -38,6 +38,7 @@ import { WhatsAppService, InboundParsedData } from '../services/whatsappService'
 import { WhatsAppTestActivityTable } from './WhatsAppTestActivityTable';
 import { CustomWhatsAppPostSection } from './CustomWhatsAppPostSection';
 import { AIWhatsAppOrderCard } from './AIWhatsAppOrderCard';
+import { AIPromotionalGraphicSection } from './AIPromotionalGraphicSection';
 import { parseWhatsAppCustomerMessage, buildSalesEnquiryFromWhatsAppParsed } from '../utils/whatsappOrderHelper';
 import { NAV_DURGA_TEST_CUSTOMER } from '../data/demoData';
 
@@ -66,10 +67,10 @@ export const WhatsAppCenterView: React.FC<WhatsAppCenterViewProps> = ({
   onNavigateToCustomer,
   onNavigateTab,
 }) => {
-  // Step navigation: ai-orders (Phase 3), manual-test, custom-post, 1. Create Message, 2. Select Customers, 3. Preview & Manual Share, 4. Inbound Webhook Simulator
+  // Step navigation: ai-graphic (New Promotional Graphic), ai-orders (Phase 3), manual-test, custom-post, 1. Create Message, 2. Select Customers, 3. Preview & Manual Share, 4. Inbound Webhook Simulator
   const [activeStep, setActiveStep] = useState<
-    'ai-orders' | 'manual-test' | 'custom-post' | 'create' | 'select' | 'share' | 'simulator'
-  >('ai-orders');
+    'ai-graphic' | 'ai-orders' | 'manual-test' | 'custom-post' | 'create' | 'select' | 'share' | 'simulator'
+  >('ai-graphic');
 
   // Phase 3 AI Order Management State
   const [aiOrderSelectedCustomerId, setAiOrderSelectedCustomerId] = useState<string>(customers[0]?.id || '');
@@ -340,11 +341,23 @@ export const WhatsAppCenterView: React.FC<WhatsAppCenterViewProps> = ({
         </div>
 
         {/* Step Tabs */}
-        <div className="flex flex-wrap items-center gap-1 bg-white border border-slate-200 p-1 rounded-xl shadow-xs">
+        <div className="flex items-center gap-1 bg-white border border-slate-200 p-1 rounded-xl shadow-xs overflow-x-auto max-w-full">
+          <button
+            type="button"
+            onClick={() => setActiveStep('ai-graphic')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
+              activeStep === 'ai-graphic'
+                ? 'bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white shadow-xs font-black ring-1 ring-blue-500'
+                : 'text-indigo-950 bg-indigo-50/80 hover:bg-indigo-100 border border-indigo-200 font-extrabold'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>✨ AI Promotional Graphic</span>
+          </button>
           <button
             type="button"
             onClick={() => setActiveStep('ai-orders')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
               activeStep === 'ai-orders'
                 ? 'bg-emerald-600 text-white shadow-xs'
                 : 'text-emerald-900 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300'
@@ -355,7 +368,7 @@ export const WhatsAppCenterView: React.FC<WhatsAppCenterViewProps> = ({
           <button
             type="button"
             onClick={() => setActiveStep('manual-test')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
               activeStep === 'manual-test'
                 ? 'bg-amber-600 text-white shadow-xs'
                 : 'text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200'
@@ -366,7 +379,7 @@ export const WhatsAppCenterView: React.FC<WhatsAppCenterViewProps> = ({
           <button
             type="button"
             onClick={() => setActiveStep('custom-post')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
               activeStep === 'custom-post'
                 ? 'bg-purple-600 text-white shadow-xs'
                 : 'text-purple-900 bg-purple-50 hover:bg-purple-100 border border-purple-200'
@@ -377,7 +390,7 @@ export const WhatsAppCenterView: React.FC<WhatsAppCenterViewProps> = ({
           <button
             type="button"
             onClick={() => setActiveStep('create')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer ${
               activeStep === 'create'
                 ? 'bg-blue-600 text-white shadow-xs'
                 : 'text-slate-600 hover:bg-slate-100'
@@ -388,7 +401,7 @@ export const WhatsAppCenterView: React.FC<WhatsAppCenterViewProps> = ({
           <button
             type="button"
             onClick={() => setActiveStep('select')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 shrink-0 cursor-pointer ${
               activeStep === 'select'
                 ? 'bg-blue-600 text-white shadow-xs'
                 : 'text-slate-600 hover:bg-slate-100'
@@ -402,7 +415,7 @@ export const WhatsAppCenterView: React.FC<WhatsAppCenterViewProps> = ({
           <button
             type="button"
             onClick={() => setActiveStep('share')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer ${
               activeStep === 'share'
                 ? 'bg-emerald-600 text-white shadow-xs'
                 : 'text-slate-600 hover:bg-slate-100'
@@ -413,7 +426,7 @@ export const WhatsAppCenterView: React.FC<WhatsAppCenterViewProps> = ({
           <button
             type="button"
             onClick={() => setActiveStep('simulator')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 shrink-0 cursor-pointer ${
               activeStep === 'simulator'
                 ? 'bg-indigo-600 text-white shadow-xs'
                 : 'text-slate-600 hover:bg-slate-100'
@@ -450,6 +463,17 @@ export const WhatsAppCenterView: React.FC<WhatsAppCenterViewProps> = ({
           <div className="flex items-center gap-2 shrink-0 flex-wrap">
             <button
               type="button"
+              onClick={() => setActiveStep('ai-graphic')}
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer ${
+                activeStep === 'ai-graphic'
+                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white ring-2 ring-blue-400 font-extrabold'
+                  : 'bg-white text-blue-900 border border-blue-300 hover:bg-blue-50 font-bold'
+              }`}
+            >
+              ✨ AI Promotional Graphic
+            </button>
+            <button
+              type="button"
               onClick={() => setActiveStep('custom-post')}
               className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all shadow-xs ${
                 activeStep === 'custom-post'
@@ -473,6 +497,23 @@ export const WhatsAppCenterView: React.FC<WhatsAppCenterViewProps> = ({
           </div>
         </div>
       </div>
+
+      {/* NEW FEATURE: AI PROMOTIONAL GRAPHIC GENERATOR */}
+      {activeStep === 'ai-graphic' && (
+        <AIPromotionalGraphicSection
+          customers={customers}
+          company={company}
+          onLogWhatsAppActivity={(action, custName, phone, details) => {
+            WhatsAppService.logActivity({
+              action: action as any,
+              customerName: custName,
+              phoneNumber: phone,
+              details,
+              status: 'Manual Action',
+            });
+          }}
+        />
+      )}
 
       {/* PHASE 3: AI WHATSAPP ORDER & ENQUIRY MANAGEMENT */}
       {activeStep === 'ai-orders' && (

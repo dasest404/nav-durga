@@ -421,7 +421,7 @@ export const AIAssistantView: React.FC<AIAssistantViewProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-6.5rem)] max-h-[960px] bg-white rounded-2xl shadow-xs border border-slate-200 overflow-hidden">
+    <div className="flex flex-col min-h-[480px] h-[calc(100vh-9.5rem)] md:h-[calc(100vh-6.5rem)] max-h-[960px] bg-white rounded-2xl shadow-xs border border-slate-200 overflow-hidden">
       {/* Top Header Bar */}
       <div className="bg-slate-900 text-white px-4 sm:px-6 py-3.5 border-b border-slate-800 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">

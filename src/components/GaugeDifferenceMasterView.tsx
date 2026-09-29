@@ -139,14 +139,14 @@ export const GaugeDifferenceMasterView: React.FC<GaugeDifferenceMasterViewProps>
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {hasUnsavedChanges && (
             <button
               type="button"
               onClick={handleSaveAllDiffs}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition-colors"
+              className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition-colors cursor-pointer"
             >
-              <Save className="w-4 h-4" />
+              <Save className="w-4 h-4 shrink-0" />
               <span>Save Changes ({Object.keys(editingDiffs).length})</span>
             </button>
           )}
@@ -155,10 +155,10 @@ export const GaugeDifferenceMasterView: React.FC<GaugeDifferenceMasterViewProps>
             <button
               type="button"
               onClick={onOpenDailyRates}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 shadow-sm transition-colors"
+              className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 shadow-sm transition-colors cursor-pointer"
             >
               <span>Go to Daily Rates</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 shrink-0" />
             </button>
           )}
         </div>
@@ -203,7 +203,7 @@ export const GaugeDifferenceMasterView: React.FC<GaugeDifferenceMasterViewProps>
                   key={source}
                   type="button"
                   onClick={() => setSelectedSource(source)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                     isSelected
                       ? 'bg-slate-900 text-white shadow-xs'
                       : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
@@ -226,7 +226,7 @@ export const GaugeDifferenceMasterView: React.FC<GaugeDifferenceMasterViewProps>
                 key={grd}
                 type="button"
                 onClick={() => setSelectedGrade(grd)}
-                className={`px-3 py-1 rounded-md text-xs font-bold transition-colors ${
+                className={`px-3 py-1 rounded-md text-xs font-bold transition-colors cursor-pointer ${
                   isSelected
                     ? 'bg-blue-600 text-white shadow-xs'
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -254,7 +254,7 @@ export const GaugeDifferenceMasterView: React.FC<GaugeDifferenceMasterViewProps>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-xs sm:text-sm">
+          <table className="w-full min-w-[700px] text-left border-collapse text-xs sm:text-sm">
             <thead>
               <tr className="border-b border-slate-200 bg-slate-50/75 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
                 <th className="py-3 px-4 w-12 text-center">S.N.</th>
