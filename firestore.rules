@@ -1,0 +1,50 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net: default-deny all unmatched paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Products: Steel catalog and rates
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isSignedIn() && isValidId(productId);
+    }
+
+    // Customers: Commercial customer profiles for WhatsApp broadcasts
+    match /customers/{customerId} {
+      allow read: if true;
+      allow write: if isSignedIn() && isValidId(customerId);
+    }
+
+    // Daily Updates: Daily rate changes per rolling mill unit
+    match /daily_updates/{updateId} {
+      allow read: if true;
+      allow write: if isSignedIn() && isValidId(updateId);
+    }
+
+    // Sales Enquiries: WhatsApp orders and commercial requirements
+    match /sales_enquiries/{enquiryId} {
+      allow read: if true;
+      allow create: if isValidId(enquiryId);
+      allow update, delete: if isSignedIn() && isValidId(enquiryId);
+    }
+
+    // AI Promotional Graphics: Generated promotional graphics history
+    match /ai_promotional_graphics/{graphicId} {
+      allow read: if true;
+      allow create: if isValidId(graphicId);
+      allow update, delete: if isSignedIn() && isValidId(graphicId);
+    }
+  }
+}

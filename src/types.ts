@@ -715,3 +715,13 @@ export interface AIGeneratedGraphicHistoryItem {
   aspectRatio: '1:1' | '4:5';
 }
 
+export interface MarketOpeningRates {
+  mediumSectionName: string;
+  mediumSectionRate: number;
+  lightSectionName: string;
+  lightSectionRate: number;
+  lastUpdated?: string;
+  updatedBy?: string;
+}
+
+

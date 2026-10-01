@@ -39,6 +39,7 @@ import { WhatsAppTestActivityTable } from './WhatsAppTestActivityTable';
 import { CustomWhatsAppPostSection } from './CustomWhatsAppPostSection';
 import { AIWhatsAppOrderCard } from './AIWhatsAppOrderCard';
 import { AIPromotionalGraphicSection } from './AIPromotionalGraphicSection';
+import { MarketOpeningGraphicSection } from './MarketOpeningGraphicSection';
 import { parseWhatsAppCustomerMessage, buildSalesEnquiryFromWhatsAppParsed } from '../utils/whatsappOrderHelper';
 import { NAV_DURGA_TEST_CUSTOMER } from '../data/demoData';
 
@@ -49,6 +50,7 @@ interface WhatsAppCenterViewProps {
   company: CompanySettings;
   whatsAppConfig: WhatsAppConfig;
   preselectedUpdateId?: string;
+  userRole?: 'Admin' | 'Sales' | 'Staff';
   onLogMessage: (record: WhatsAppMessageRecord) => void;
   onCreateEnquiryFromWebhook: (enquiry: SalesEnquiry) => void;
   onNavigateToCustomer: (customerId: string) => void;
@@ -62,15 +64,16 @@ export const WhatsAppCenterView: React.FC<WhatsAppCenterViewProps> = ({
   company,
   whatsAppConfig,
   preselectedUpdateId,
+  userRole = 'Admin',
   onLogMessage,
   onCreateEnquiryFromWebhook,
   onNavigateToCustomer,
   onNavigateTab,
 }) => {
-  // Step navigation: ai-graphic (New Promotional Graphic), ai-orders (Phase 3), manual-test, custom-post, 1. Create Message, 2. Select Customers, 3. Preview & Manual Share, 4. Inbound Webhook Simulator
+  // Step navigation: market-opening (Exact Reference Template), ai-graphic (AI Generator), ai-orders (Phase 3), manual-test, custom-post, 1. Create Message, 2. Select Customers, 3. Preview & Manual Share, 4. Inbound Webhook Simulator
   const [activeStep, setActiveStep] = useState<
-    'ai-graphic' | 'ai-orders' | 'manual-test' | 'custom-post' | 'create' | 'select' | 'share' | 'simulator'
-  >('ai-graphic');
+    'market-opening' | 'ai-graphic' | 'ai-orders' | 'manual-test' | 'custom-post' | 'create' | 'select' | 'share' | 'simulator'
+  >('market-opening');
 
   // Phase 3 AI Order Management State
   const [aiOrderSelectedCustomerId, setAiOrderSelectedCustomerId] = useState<string>(customers[0]?.id || '');
@@ -344,6 +347,17 @@ export const WhatsAppCenterView: React.FC<WhatsAppCenterViewProps> = ({
         <div className="flex items-center gap-1 bg-white border border-slate-200 p-1 rounded-xl shadow-xs overflow-x-auto max-w-full">
           <button
             type="button"
+            onClick={() => setActiveStep('market-opening')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
+              activeStep === 'market-opening'
+                ? 'bg-gradient-to-r from-red-600 via-amber-600 to-yellow-600 text-white shadow-xs font-black ring-1 ring-amber-400'
+                : 'text-amber-950 bg-amber-50 hover:bg-amber-100 border border-amber-300 font-extrabold'
+            }`}
+          >
+            <span>📢 Market Opening Graphic</span>
+          </button>
+          <button
+            type="button"
             onClick={() => setActiveStep('ai-graphic')}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
               activeStep === 'ai-graphic'
@@ -463,6 +477,17 @@ export const WhatsAppCenterView: React.FC<WhatsAppCenterViewProps> = ({
           <div className="flex items-center gap-2 shrink-0 flex-wrap">
             <button
               type="button"
+              onClick={() => setActiveStep('market-opening')}
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer ${
+                activeStep === 'market-opening'
+                  ? 'bg-gradient-to-r from-red-600 via-amber-600 to-yellow-600 text-white ring-2 ring-amber-400 font-extrabold'
+                  : 'bg-white text-amber-950 border border-amber-300 hover:bg-amber-50 font-bold'
+              }`}
+            >
+              📢 Market Opening Graphic
+            </button>
+            <button
+              type="button"
               onClick={() => setActiveStep('ai-graphic')}
               className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer ${
                 activeStep === 'ai-graphic'
@@ -497,6 +522,24 @@ export const WhatsAppCenterView: React.FC<WhatsAppCenterViewProps> = ({
           </div>
         </div>
       </div>
+
+      {/* FIXED TEMPLATE: MARKET OPENING GRAPHIC SECTION */}
+      {activeStep === 'market-opening' && (
+        <MarketOpeningGraphicSection
+          customers={customers}
+          company={company}
+          userRole={userRole}
+          onLogWhatsAppActivity={(action, custName, phone, details) => {
+            WhatsAppService.logActivity({
+              action: action as any,
+              customerName: custName,
+              phoneNumber: phone,
+              details,
+              status: 'Manual Action',
+            });
+          }}
+        />
+      )}
 
       {/* NEW FEATURE: AI PROMOTIONAL GRAPHIC GENERATOR */}
       {activeStep === 'ai-graphic' && (

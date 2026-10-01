@@ -1,0 +1,114 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Steel product specification and pricing item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 200 },
+        "code": { "type": "string", "maxLength": 50 },
+        "category": { "type": "string", "maxLength": 100 },
+        "size": { "type": "string", "maxLength": 100 },
+        "grade": { "type": "string", "maxLength": 100 },
+        "section": { "type": "string", "maxLength": 100 },
+        "baseRate": { "type": "number" },
+        "gaugeDifference": { "type": "number" },
+        "currentPrice": { "type": "number" },
+        "finalRate": { "type": "number" },
+        "status": { "type": "string", "maxLength": 50 },
+        "rateSource": { "type": "string", "maxLength": 200 },
+        "updatedAt": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["name", "category", "size", "currentPrice"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Commercial buyer profile for WhatsApp broadcasts and sales orders",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 200 },
+        "companyName": { "type": "string", "maxLength": 200 },
+        "mobile": { "type": "string", "maxLength": 50 },
+        "whatsapp": { "type": "string", "maxLength": 50 },
+        "email": { "type": "string", "maxLength": 150 },
+        "city": { "type": "string", "maxLength": 100 },
+        "state": { "type": "string", "maxLength": 100 },
+        "status": { "type": "string", "maxLength": 50 },
+        "customerType": { "type": "string", "maxLength": 50 },
+        "gstNumber": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["companyName", "mobile"]
+    },
+    "DailyUpdate": {
+      "title": "DailyUpdate",
+      "description": "Daily steel price update record per rolling mill unit",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "unit": { "type": "string", "maxLength": 100 },
+        "section": { "type": "string", "maxLength": 100 },
+        "date": { "type": "string", "maxLength": 50 },
+        "baseRate": { "type": "number" },
+        "status": { "type": "string", "maxLength": 50 },
+        "updatedBy": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["unit", "date", "baseRate"]
+    },
+    "SalesEnquiry": {
+      "title": "SalesEnquiry",
+      "description": "Commercial sales requirement or inquiry from WhatsApp/ERP",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "enquiryNumber": { "type": "string", "maxLength": 50 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "customerName": { "type": "string", "maxLength": 200 },
+        "companyName": { "type": "string", "maxLength": 200 },
+        "phone": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "maxLength": 50 },
+        "totalAmount": { "type": "number" },
+        "createdAt": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["enquiryNumber", "customerName", "phone"]
+    },
+    "AIGeneratedGraphic": {
+      "title": "AIGeneratedGraphic",
+      "description": "AI promotional graphic generated in WhatsApp Center",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "promptText": { "type": "string", "maxLength": 2000 },
+        "headline": { "type": "string", "maxLength": 200 },
+        "price": { "type": "string", "maxLength": 100 },
+        "aspectRatio": { "type": "string", "maxLength": 20 },
+        "generationId": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["promptText", "headline", "generationId"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Master list of steel specifications and rates"
+    },
+    "/customers/{customerId}": {
+      "schema": { "$ref": "#/entities/Customer" },
+      "description": "Commercial customer directory for WhatsApp broadcasts"
+    },
+    "/daily_updates/{updateId}": {
+      "schema": { "$ref": "#/entities/DailyUpdate" },
+      "description": "Daily mill base rate records"
+    },
+    "/sales_enquiries/{enquiryId}": {
+      "schema": { "$ref": "#/entities/SalesEnquiry" },
+      "description": "Captured sales inquiries and WhatsApp orders"
+    },
+    "/ai_promotional_graphics/{graphicId}": {
+      "schema": { "$ref": "#/entities/AIGeneratedGraphic" },
+      "description": "AI generated promotional graphics history"
+    }
+  }
+}

@@ -15,6 +15,9 @@ interface HeaderProps {
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (open: boolean) => void;
   pendingEnquiriesCount: number;
+  currentUser?: { displayName?: string | null; email?: string | null; photoURL?: string | null } | null;
+  onSignIn?: () => void;
+  onSignOut?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -24,6 +27,9 @@ export const Header: React.FC<HeaderProps> = ({
   mobileMenuOpen,
   setMobileMenuOpen,
   pendingEnquiriesCount,
+  currentUser,
+  onSignIn,
+  onSignOut,
 }) => {
   // Dynamically formatted current real date using the user's local date (e.g. "29 Sept 2026")
   const formattedCurrentDate = useMemo(() => {
@@ -135,19 +141,72 @@ export const Header: React.FC<HeaderProps> = ({
               )}
             </button>
 
-            {/* User Profile Pill */}
-            <div
-              onClick={() => onNavigate('settings')}
-              className="flex items-center gap-2 pl-2 border-l border-slate-200 cursor-pointer hover:opacity-80 transition-opacity"
-            >
-              <div className="w-8 h-8 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center text-slate-700 font-bold text-xs shrink-0">
-                VP
+            {/* User Profile / Firebase Auth Pill */}
+            {currentUser ? (
+              <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
+                {currentUser.photoURL ? (
+                  <img
+                    src={currentUser.photoURL}
+                    alt={currentUser.displayName || 'User'}
+                    className="w-8 h-8 rounded-full border border-slate-300 object-cover shrink-0"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-800 border border-blue-200 flex items-center justify-center font-bold text-xs shrink-0">
+                    {(currentUser.displayName || currentUser.email || 'U').charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <div
+                  onClick={() => onNavigate('settings')}
+                  className="hidden lg:flex flex-col text-left cursor-pointer hover:opacity-80"
+                >
+                  <span className="text-xs font-bold text-slate-800 leading-tight truncate max-w-[120px]">
+                    {currentUser.displayName || currentUser.email?.split('@')[0] || 'User'}
+                  </span>
+                  <span className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    Firebase Sync
+                  </span>
+                </div>
+                {onSignOut && (
+                  <button
+                    type="button"
+                    onClick={onSignOut}
+                    className="hidden sm:inline-flex text-[10px] font-bold text-slate-400 hover:text-rose-600 p-1 rounded hover:bg-slate-100 cursor-pointer"
+                    title="Sign Out"
+                  >
+                    Logout
+                  </button>
+                )}
               </div>
-              <div className="hidden lg:flex flex-col text-left">
-                <span className="text-xs font-bold text-slate-800 leading-tight">Virendra Patel</span>
-                <span className="text-[10px] text-slate-500 font-medium">Administrator</span>
+            ) : (
+              <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
+                {onSignIn ? (
+                  <button
+                    type="button"
+                    onClick={onSignIn}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition-colors cursor-pointer"
+                    title="Sign in with Google Firebase"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <span>Sign In</span>
+                  </button>
+                ) : (
+                  <div
+                    onClick={() => onNavigate('settings')}
+                    className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center text-slate-700 font-bold text-xs shrink-0">
+                      VP
+                    </div>
+                    <div className="hidden lg:flex flex-col text-left">
+                      <span className="text-xs font-bold text-slate-800 leading-tight">Virendra Patel</span>
+                      <span className="text-[10px] text-slate-500 font-medium">Administrator</span>
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

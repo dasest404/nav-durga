@@ -37,10 +37,15 @@ import { GaugeDifferenceMasterView } from './components/GaugeDifferenceMasterVie
 import { AIAssistantView } from './components/AIAssistantView';
 import { RateChargesConfig, RateHistoryRecord, GaugeDifferenceMasterItem, CompanyGradeBasicRates, CategoryBasicRates } from './types';
 import { calculateFinalRate } from './utils/rateCalculator';
+import { testFirestoreConnection, auth, googleProvider } from './firebase';
+import { onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
 
 export default function App() {
   // Load initial persistent state
   const [appState, setAppState] = useState<AppFullState>(() => StorageService.loadState());
+
+  // Firebase Auth State
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   // Navigation State
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
@@ -68,6 +73,31 @@ export default function App() {
   useEffect(() => {
     StorageService.saveState(appState);
   }, [appState]);
+
+  // Firebase connection and auth listener
+  useEffect(() => {
+    testFirestoreConnection();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (err) {
+      console.warn('Google sign-in closed or canceled:', err);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+    } catch (err) {
+      console.warn('Sign out error:', err);
+    }
+  };
 
   // Derived counts for badges
   const newEnquiriesCount = appState.enquiries.filter((e) => e.status === 'New').length;
@@ -604,6 +634,9 @@ export default function App() {
         mobileMenuOpen={isMobileMenuOpen}
         setMobileMenuOpen={setIsMobileMenuOpen}
         pendingEnquiriesCount={newEnquiriesCount}
+        currentUser={currentUser}
+        onSignIn={handleGoogleSignIn}
+        onSignOut={handleSignOut}
       />
 
       {/* Main Layout Container */}

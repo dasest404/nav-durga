@@ -14,6 +14,7 @@ const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json({ limit: '10mb' }));
+app.use(express.static(path.resolve(__dirname, 'public')));
 
 // Health Check
 app.get('/api/health', (req, res) => {

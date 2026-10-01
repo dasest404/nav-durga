@@ -15,6 +15,7 @@ import {
   CommonProductImage,
   CompanyGradeBasicRates,
   CategoryBasicRates,
+  MarketOpeningRates,
 } from '../types';
 import {
   INITIAL_COMPANY_SETTINGS,
@@ -55,6 +56,14 @@ const STORAGE_KEYS = {
   COMMON_PRODUCT_IMAGES: 'navdurga_common_product_images_v1',
   GRADE_BASIC_RATES: 'navdurga_grade_basic_rates_v1',
   CATEGORY_BASIC_RATES: 'navdurga_category_basic_rates_v1',
+  MARKET_OPENING_RATES: 'navdurga_market_opening_rates_v1',
+};
+
+export const DEFAULT_MARKET_OPENING_RATES: MarketOpeningRates = {
+  mediumSectionName: 'MEDIUM SECTION',
+  mediumSectionRate: 49711,
+  lightSectionName: 'LIGHT SECTION',
+  lightSectionRate: 42211,
 };
 
 export interface AppFullState {
@@ -74,6 +83,7 @@ export interface AppFullState {
   commonProductImages: CommonProductImage[];
   gradeBasicRates: CompanyGradeBasicRates;
   categoryBasicRates: CategoryBasicRates;
+  marketOpeningRates: MarketOpeningRates;
 }
 
 function safeGet<T>(key: string, fallback: T): T {
@@ -183,6 +193,7 @@ export class StorageService {
       commonProductImages,
       gradeBasicRates,
       categoryBasicRates,
+      marketOpeningRates: safeGet<MarketOpeningRates>(STORAGE_KEYS.MARKET_OPENING_RATES, DEFAULT_MARKET_OPENING_RATES),
     };
   }
 
@@ -203,6 +214,20 @@ export class StorageService {
     safeSet(STORAGE_KEYS.COMMON_PRODUCT_IMAGES, state.commonProductImages);
     safeSet(STORAGE_KEYS.GRADE_BASIC_RATES, state.gradeBasicRates);
     safeSet(STORAGE_KEYS.CATEGORY_BASIC_RATES, state.categoryBasicRates);
+    safeSet(STORAGE_KEYS.MARKET_OPENING_RATES, state.marketOpeningRates);
+  }
+
+  static getMarketOpeningRates(): MarketOpeningRates {
+    return safeGet<MarketOpeningRates>(STORAGE_KEYS.MARKET_OPENING_RATES, DEFAULT_MARKET_OPENING_RATES);
+  }
+
+  static saveMarketOpeningRates(rates: MarketOpeningRates): void {
+    safeSet(STORAGE_KEYS.MARKET_OPENING_RATES, rates);
+    // Also sync categoryBasicRates
+    const catRates = safeGet<CategoryBasicRates>(STORAGE_KEYS.CATEGORY_BASIC_RATES, INITIAL_CATEGORY_BASIC_RATES);
+    catRates['MEDIUM SECTION'] = rates.mediumSectionRate;
+    catRates['LIGHT SECTION'] = rates.lightSectionRate;
+    safeSet(STORAGE_KEYS.CATEGORY_BASIC_RATES, catRates);
   }
 
   static getRateCharges(): RateChargesConfig {
